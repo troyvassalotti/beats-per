@@ -2,8 +2,8 @@
 
 import VitePluginCustomElementsManifest from 'vite-plugin-cem'
 import { jsdocExamplePlugin } from 'cem-plugin-jsdoc-example'
-import { generateCustomData } from 'cem-plugin-vs-code-custom-data-generator'
-import { generateWebTypes } from 'cem-plugin-jet-brains-ide-integration'
+import { customElementVsCodePlugin } from 'custom-element-vs-code-integration'
+import { customElementJetBrainsPlugin } from 'custom-element-jet-brains-integration'
 
 const ideIntegrations = {
 	outdir: 'dist',
@@ -25,8 +25,8 @@ export default {
 			lit: true,
 			plugins: [
 				jsdocExamplePlugin(),
-				generateCustomData(ideIntegrations),
-				generateWebTypes(ideIntegrations),
+				customElementVsCodePlugin(ideIntegrations),
+				customElementJetBrainsPlugin(ideIntegrations),
 			],
 		}),
 	],

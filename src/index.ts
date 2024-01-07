@@ -1,4 +1,4 @@
-import { LitElement, html, TemplateResult } from 'lit'
+import { LitElement, html, TemplateResult, PropertyValueMap } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
 
 /**
@@ -12,15 +12,11 @@ export default class BeatsPer extends LitElement {
 	 *
 	 * @example
 	 * ```html
-	 * <beats-per timelimit="3000" buttontext="Press"></beats-per>
+	 * <beats-per timelimit="3000"></beats-per>
 	 * ```
 	 */
 	@property()
 	timeLimit = 2000
-
-	/** Text to use for the button. */
-	@property()
-	buttonText = 'Tap'
 
 	/** Number of taps in current session. */
 	@state()
@@ -43,9 +39,19 @@ export default class BeatsPer extends LitElement {
 		return Math.round(this.bpmAvg)
 	}
 
-	// Don't create a shadow root
-	protected createRenderRoot(): Element | ShadowRoot {
-		return this
+	/** Slotted button to trigger the counting. */
+	get buttonElement(): HTMLButtonElement | null {
+		return this.querySelector('button')
+	}
+
+	/** Element to keep track of the BPM. */
+	get bpmElement(): Element | null {
+		return this.querySelector('#bpm')
+	}
+
+	/** Element to keep track of the click count. */
+	get countElement(): Element | null {
+		return this.querySelector('#count')
 	}
 
 	/** Reset the count when the time limit has been reached. */
@@ -54,10 +60,11 @@ export default class BeatsPer extends LitElement {
 	}
 
 	/** Calculates the BPM on click. */
-	handleClick() {
+	handleClick = () => {
 		const ms = new Date().getTime()
 		if (ms - this.msPrevious > this.timeLimit) this.resetCount()
 		if (this.count === 0) {
+			this.bpmAvg = 0
 			this.msCurrent = ms
 			this.count++
 		} else {
@@ -68,11 +75,39 @@ export default class BeatsPer extends LitElement {
 		this.msPrevious = ms
 	}
 
+	/** Updates the element that holds the count. */
+	updateCount() {
+		if (this.countElement) {
+			this.countElement.textContent = this.count.toString()
+		}
+	}
+
+	/** Updates the element that holds the BPM count. */
+	updateBPM() {
+		if (this.bpmElement) {
+			this.bpmElement.textContent = this.bpm.toString()
+		}
+	}
+
+	connectedCallback(): void {
+		super.connectedCallback()
+
+		this.buttonElement?.addEventListener('click', this.handleClick)
+	}
+
+	protected updated(
+		changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>,
+	): void {
+		if (changedProperties.has('count')) {
+			this.updateCount()
+		}
+
+		if (changedProperties.has('bpmAvg')) {
+			this.updateBPM()
+		}
+	}
+
 	render(): TemplateResult {
-		return html`
-			<p>BPM: <output>${this.bpm}</output></p>
-			<p>Count: <output>${this.count}</output></p>
-			<button @click=${this.handleClick}>${this.buttonText}</button>
-		`
+		return html` <slot></slot> `
 	}
 }
