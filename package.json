@@ -1,7 +1,7 @@
 {
 	"type": "module",
 	"name": "@troyv/beats-per",
-	"version": "2.0.0",
+	"version": "3.0.0",
 	"description": "A web component for calculating beats per minute.",
 	"main": "./dist/beats-per.js",
 	"files": [
