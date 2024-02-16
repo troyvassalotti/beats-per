@@ -3,20 +3,18 @@
 	"name": "@troyv/beats-per",
 	"version": "2.0.0",
 	"description": "A web component for calculating beats per minute.",
-	"main": "dist/beats-per.js",
+	"main": "./dist/beats-per.js",
 	"files": [
-		"dist",
-		"types"
+		"dist"
 	],
 	"exports": {
 		".": "./dist/beats-per.js"
 	},
-	"types": "types/index.d.ts",
+	"types": "./dist/beats-per.d.ts",
 	"scripts": {
-		"dev": "vite",
-		"build": "tsc && vite build",
-		"preview": "vite preview",
-		"format": "npx prettier --write ."
+		"build": "npx tsc",
+		"format": "npx prettier --write .",
+		"start": "npm run build && npx http-server ."
 	},
 	"repository": {
 		"type": "git",
@@ -28,18 +26,9 @@
 	},
 	"homepage": "https://github.com/troyvassalotti/beats-per#readme",
 	"devDependencies": {
-		"api-viewer-element": "^1.0.0-pre.8",
-		"cem-plugin-jsdoc-example": "^0.0.9",
-		"custom-element-jet-brains-integration": "^1.4.1",
-		"custom-element-vs-code-integration": "^1.2.1",
-		"prettier": "^3.1.1",
-		"typescript": "^5.3.3",
-		"vite": "^5.0.11",
-		"vite-plugin-cem": "^0.6.0"
+		"typescript": "^5.3.3"
 	},
 	"dependencies": {
-		"lit": "^3.1.0"
-	},
-	"customElements": "dist/custom-elements.json",
-	"web-types": "dist/web-types.json"
+		"lit": "^3.1.2"
+	}
 }

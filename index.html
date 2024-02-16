@@ -1,20 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>beats-per</title>
 		<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
-		<script
-			type="module"
-			src="/node_modules/api-viewer-element/lib/api-viewer.js"
-		></script>
-		<script type="module" src="./src/index.ts"></script>
-		<style>
-			api-viewer {
-				max-inline-size: 100%;
+		<!-- for browsers that don't natively support import maps -->
+		<!-- <script async src="https://esm.sh/es-module-shims"></script> -->
+		<script type="importmap">
+			{
+				"imports": {
+					"lit": "https://esm.sh/lit",
+					"lit/": "https://esm.sh/lit/"
+				}
 			}
-		</style>
+		</script>
+		<script type="module" src="./dist/beats-per.js"></script>
 	</head>
 	<body>
 		<main>
@@ -22,16 +23,33 @@
 				<h1><code>beats-per</code></h1>
 			</header>
 			<section class="demo">
-				<h2>Demo</h2>
+				<h2>Basic Demo</h2>
 				<beats-per>
-					<p>BPM: <output id="bpm"></output></p>
-					<p>Count: <output id="count"></output></p>
-					<button>Click to track</button>
+					<p>BPM: <output data-bp-bpm></output></p>
+					<p>Count: <output data-bp-count></output></p>
+					<button data-bp-button>Click to track</button>
 				</beats-per>
 			</section>
-			<section class="docs">
-				<h2>Docs</h2>
-				<api-viewer src="/custom-elements.json"></api-viewer>
+			<section class="complex">
+				<h2>Complex Demo</h2>
+				<p>You can put the interactive pieces anywhere.</p>
+				<beats-per>
+					<p>
+						For example, this is a random paragraph inside the component. It's
+						not doing anything special.
+					</p>
+					<button data-bp-button>This is the button</button>
+					<div class="top">
+						<p>
+							I am going to keep track of the BPM right here:
+							<output data-bp-bpm></output>.
+						</p>
+						<p>
+							The current count (<output data-bp-count></output>) was in the
+							parentheses.
+						</p>
+					</div>
+				</beats-per>
 			</section>
 		</main>
 	</body>

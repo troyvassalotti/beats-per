@@ -1,4 +1,4 @@
-import { LitElement, html, TemplateResult, PropertyValueMap } from 'lit'
+import { LitElement, PropertyValueMap, html } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
 
 /**
@@ -15,12 +15,12 @@ export default class BeatsPer extends LitElement {
 	 * <beats-per timelimit="3000"></beats-per>
 	 * ```
 	 */
-	@property()
-	timeLimit = 2000
+	@property({ type: Number })
+	timeLimit: number = 2000
 
 	/** Number of taps in current session. */
 	@state()
-	count = 0
+	count: number = 0
 
 	/** MS of the current tap. */
 	@state()
@@ -41,17 +41,17 @@ export default class BeatsPer extends LitElement {
 
 	/** Slotted button to trigger the counting. */
 	get buttonElement(): HTMLButtonElement | null {
-		return this.querySelector('button')
+		return this.querySelector('[data-bp-button]')
 	}
 
 	/** Element to keep track of the BPM. */
 	get bpmElement(): Element | null {
-		return this.querySelector('#bpm')
+		return this.querySelector('[data-bp-bpm]')
 	}
 
 	/** Element to keep track of the click count. */
 	get countElement(): Element | null {
-		return this.querySelector('#count')
+		return this.querySelector('[data-bp-count]')
 	}
 
 	/** Reset the count when the time limit has been reached. */
@@ -95,8 +95,8 @@ export default class BeatsPer extends LitElement {
 		this.buttonElement?.addEventListener('click', this.handleClick)
 	}
 
-	protected updated(
-		changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>,
+	updated(
+		changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
 	): void {
 		if (changedProperties.has('count')) {
 			this.updateCount()
@@ -107,7 +107,7 @@ export default class BeatsPer extends LitElement {
 		}
 	}
 
-	render(): TemplateResult {
-		return html` <slot></slot> `
+	render() {
+		return html`<slot></slot>`
 	}
 }
