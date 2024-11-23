@@ -83,6 +83,7 @@ let BeatsPer = class BeatsPer extends LitElement {
         super.connectedCallback();
         this.buttonElement?.addEventListener('click', this.handleClick);
     }
+    // Uses updated since these methods update external elements
     updated(changedProperties) {
         if (changedProperties.has('count')) {
             this.updateCount();

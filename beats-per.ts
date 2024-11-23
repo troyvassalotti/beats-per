@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, html } from 'lit'
+import { LitElement, type PropertyValueMap, html } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
 
 /**
@@ -16,53 +16,55 @@ export default class BeatsPer extends LitElement {
 	 * ```
 	 */
 	@property({ type: Number })
-	timeLimit: number = 2000
+	public timeLimit: number = 2000
 
 	/** Number of taps in current session. */
 	@state()
-	count: number = 0
+	private count: number = 0
 
 	/** MS of the current tap. */
 	@state()
-	msCurrent = 0
+	private msCurrent: number = 0
 
 	/** MS of the previous tap. */
 	@state()
-	msPrevious = 0
+	private msPrevious: number = 0
 
 	/** Average number of beats per minute, not rounded. */
 	@state()
-	bpmAvg = 0
+	private bpmAvg: number = 0
 
 	/** Average number of beats rounded to the nearest integer. */
-	get bpm() {
+	private get bpm(): number {
 		return Math.round(this.bpmAvg)
 	}
 
 	/** Slotted button to trigger the counting. */
-	get buttonElement(): HTMLButtonElement | null {
+	private get buttonElement(): HTMLButtonElement | null {
 		return this.querySelector('[data-bp-button]')
 	}
 
 	/** Element to keep track of the BPM. */
-	get bpmElement(): Element | null {
+	private get bpmElement(): Element | null {
 		return this.querySelector('[data-bp-bpm]')
 	}
 
 	/** Element to keep track of the click count. */
-	get countElement(): Element | null {
+	private get countElement(): Element | null {
 		return this.querySelector('[data-bp-count]')
 	}
 
 	/** Reset the count when the time limit has been reached. */
-	resetCount() {
+	private resetCount(): void {
 		this.count = 0
 	}
 
 	/** Calculates the BPM on click. */
-	handleClick = () => {
+	private handleClick: () => void = (): void => {
 		const ms = new Date().getTime()
+
 		if (ms - this.msPrevious > this.timeLimit) this.resetCount()
+
 		if (this.count === 0) {
 			this.bpmAvg = 0
 			this.msCurrent = ms
@@ -76,26 +78,27 @@ export default class BeatsPer extends LitElement {
 	}
 
 	/** Updates the element that holds the count. */
-	updateCount() {
+	private updateCount(): void {
 		if (this.countElement) {
 			this.countElement.textContent = this.count.toString()
 		}
 	}
 
 	/** Updates the element that holds the BPM count. */
-	updateBPM() {
+	private updateBPM(): void {
 		if (this.bpmElement) {
 			this.bpmElement.textContent = this.bpm.toString()
 		}
 	}
 
-	connectedCallback(): void {
+	override connectedCallback(): void {
 		super.connectedCallback()
 
 		this.buttonElement?.addEventListener('click', this.handleClick)
 	}
 
-	updated(
+	// Uses updated since these methods update external elements
+	protected override updated(
 		changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>
 	): void {
 		if (changedProperties.has('count')) {
@@ -107,7 +110,7 @@ export default class BeatsPer extends LitElement {
 		}
 	}
 
-	render() {
+	protected render() {
 		return html`<slot></slot>`
 	}
 }

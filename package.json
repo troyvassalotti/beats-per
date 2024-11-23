@@ -14,7 +14,7 @@
 	"scripts": {
 		"build": "npx tsc",
 		"format": "npx prettier --write .",
-		"start": "npm run build && npx http-server ."
+		"start": "npx tsc-watch --onSuccess \"npx http-server .\""
 	},
 	"repository": {
 		"type": "git",
@@ -26,9 +26,9 @@
 	},
 	"homepage": "https://github.com/troyvassalotti/beats-per#readme",
 	"devDependencies": {
-		"typescript": "^5.3.3"
+		"typescript": "^5.7.2"
 	},
 	"dependencies": {
-		"lit": "^3.1.2"
+		"lit": "^3.2.1"
 	}
 }

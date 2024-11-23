@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap } from 'lit';
+import { LitElement, type PropertyValueMap } from 'lit';
 /**
  * @tag beats-per
  * @summary Calculate the beats per minute through interaction.
@@ -14,31 +14,31 @@ export default class BeatsPer extends LitElement {
      */
     timeLimit: number;
     /** Number of taps in current session. */
-    count: number;
+    private count;
     /** MS of the current tap. */
-    msCurrent: number;
+    private msCurrent;
     /** MS of the previous tap. */
-    msPrevious: number;
+    private msPrevious;
     /** Average number of beats per minute, not rounded. */
-    bpmAvg: number;
+    private bpmAvg;
     /** Average number of beats rounded to the nearest integer. */
-    get bpm(): number;
+    private get bpm();
     /** Slotted button to trigger the counting. */
-    get buttonElement(): HTMLButtonElement | null;
+    private get buttonElement();
     /** Element to keep track of the BPM. */
-    get bpmElement(): Element | null;
+    private get bpmElement();
     /** Element to keep track of the click count. */
-    get countElement(): Element | null;
+    private get countElement();
     /** Reset the count when the time limit has been reached. */
-    resetCount(): void;
+    private resetCount;
     /** Calculates the BPM on click. */
-    handleClick: () => void;
+    private handleClick;
     /** Updates the element that holds the count. */
-    updateCount(): void;
+    private updateCount;
     /** Updates the element that holds the BPM count. */
-    updateBPM(): void;
+    private updateBPM;
     connectedCallback(): void;
-    updated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void;
-    render(): import("lit-html").TemplateResult<1>;
+    protected updated(changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void;
+    protected render(): import("lit-html").TemplateResult<1>;
 }
 //# sourceMappingURL=beats-per.d.ts.map
